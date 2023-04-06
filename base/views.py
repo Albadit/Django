@@ -5,6 +5,7 @@ from .models import Profile
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -26,7 +27,7 @@ def Register(request):
     return render(request, "registration/register.html", context)
 
 @login_required
-def Profile(request, userid):
-    user = Profile.object.get(id = userid)
+def get_user_profile(request, username):
+    user = User.objects.get(username = username)
     context = {"user": user}
     return render(request, "base/profile.html", context)
