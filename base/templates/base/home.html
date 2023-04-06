@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block csslinks %}{% endblock csslinks %}
+
+{% block content %}
+    {% include 'base/nav.html' %}
+    <h1>Home Page</h1>
+    <a href="{% url 'camp' %}">click me</a>
+    <p>{{ first_name }} {{ last_name }}</p>
+    {% if age >= 18 %}
+        <p>Jij mag rakija</p>
+    {% else %}
+        <p>Jij mag geen rakija</p>
+    {% endif %}
+{% endblock content %}
