@@ -1,0 +1,13 @@
+{% load static %}
+<section>
+    <nav>
+        <img src="{% static 'base/img/mc.png' %}" alt="mac">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'camp' %}">Camp</a></li>
+            <li><a href="{% url 'distances' %}">Distances</a></li>
+            <li><a href="{% url 'nameform' %}">Name Form</a></li>
+            <li><a href="{% url 'distancefrom' %}">Distance From</a></li>
+        </ul>
+    </nav>
+</section>
