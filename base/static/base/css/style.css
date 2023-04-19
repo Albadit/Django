@@ -1,13 +1,108 @@
-:root {
-    --main-color: #77B648; 
-}
-
-* {
-    box-sizing: border-box;
+body {
     margin: 0;
-    padding: 0;
 }
 
-img {
-    width: 100px;
+.content {
+    margin: 1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* navigation css start*/
+.nav {
+    background-color: #262626;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.nav .logo {
+    height: 5rem;
+    width: 5rem;
+}
+
+.nav ul {
+    background: darkorange;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.nav li {
+    color: #fff;
+    background: darkorange;
+    display: block;
+    float: left;
+    padding: 1rem;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+
+.nav li a {
+    color: #fff;
+}
+
+.nav li:hover {
+    background: red;
+    cursor: pointer;
+}
+
+.nav ul li ul {
+    background: orange;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    right: 2rem;
+    display: none;
+}
+
+.nav ul li:hover>ul,
+.nav ul li:focus-within>ul,
+/* this is the line we add */
+.nav ul li ul:hover {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.nav ul li ul li {
+    clear: both;
+    width: 100%;
+}
+
+/* navigation css stop */
+
+/* library css start */
+.library {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.library th {
+    background-color: yellow;
+}
+
+.library table,
+th,
+td {
+    background-color: grey;
+    border: 2px solid;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.library th,
+td {
+    padding-left: 50px;
+    padding-right: 50px;
 }
