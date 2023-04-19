@@ -1,5 +1,6 @@
 import glob, sys
 
+tab = ' ' * 4
 
 def read_lines_from_file(filename: str) -> list[str]:
     with open(filename, 'r', encoding='utf8') as file_obj:
@@ -10,8 +11,9 @@ def edit_html_file(file_basename: str, file_path: str) -> None:
     if file_basename not in read_lines_from_file(file_path):
         with open(file_path, 'w') as file_obj:
             file_obj.write(
+                f"{{% load static %}}\n"
                 f"{{% extends 'base/base.html' %}}\n\n"
-                f"{{% block title %}}\n{' ' * 4}{file_basename.capitalize()}\n{{% endblock title %}}\n\n"
+                f"{{% block title %}}{file_basename.capitalize()}{{% endblock title %}}\n\n"
                 f"{{% block csslinks %}}\n{{% endblock csslinks %}}\n\n"
                 f"{{% block content %}}\n{{% endblock content %}}\n"
             )
@@ -22,7 +24,14 @@ def add_urls_to_file(file_basename: str, urls_filename: str) -> None:
     if not [element for element in text_context if file_basename in element]:
         with open(urls_filename, 'r', encoding='utf8') as file_obj:
             context = file_obj.readlines()
-            context.insert(-1, f"{' ' * 4}path('{file_basename}/', views.{file_basename}, name='{file_basename}'),\n")
+            find = False
+            for index, i in enumerate(context):
+                if 'urlpatterns' in i:
+                    find = True
+                if find and ']' in i:
+                    context.insert(index, f"{tab}path('{file_basename}/', views.{file_basename}, name='{file_basename}'),\n")
+                    break
+            
             with open(urls_filename, 'w') as file_obj:
                 file_obj.writelines(context)
 
@@ -32,8 +41,8 @@ def add_view_to_file(file_basename: str, views_filename: str) -> None:
         with open(views_filename, 'a') as file_obj:
             file_obj.write(
                 f"\n\ndef {file_basename}(request):\n"
-                f"{' ' * 4}context = {{}}\n"
-                f"{' ' * 4}return render(request, 'base/{file_basename}.html', context)\n"
+                f"{tab}context = {{}}\n"
+                f"{tab}return render(request, 'base/{file_basename}.html', context)\n"
             )
 
 
@@ -50,7 +59,7 @@ def edit_files( no_edit: list[str], head_folder: str, base_path: str) -> None:
             add_urls_to_file(file_basename, urls_filename)
 
 if __name__ == '__main__':
-    no_edit = ['base', 'navbar']
+    no_edit = ['base', 'header']
     base_path = sys.path[0]
     head_folder = 'base'
 

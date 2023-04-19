@@ -8,3 +8,8 @@ def home(request):
 def login(request):
     context = {}
     return render(request, 'base/login.html', context)
+
+
+def actie(request):
+    context = {}
+    return render(request, 'base/actie.html', context)
