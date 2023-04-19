@@ -1,16 +1,28 @@
 {% extends 'base/base.html' %}
+
+{% block csslinks %}
+<style>
+    .library {
+        overflow-x: scroll;
+        max-width: 1250px;
+        margin: auto;
+    }
+</style>
+{% endblock csslinks %}
+
 {% block content %}
     <div class="library">
         <h1>Unapproved books</h1>
-        <table style="overflow-y:scroll">
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>Pages</th>
-                <th>Approve/Deny</th>
-            </tr>
-            {% for book in books %}
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Pages</th>
+                    <th>Approving</th>
+                </tr>
+                {% for book in books %}
                 <tr>
                     <td>{{ book.Title }}</td>
                     <td>{{ book.Author }}</td>
@@ -18,7 +30,8 @@
                     <td>{{ book.NumberOfPages }}</td>
                     <td><a href="{% url 'approve_book' book.pk %}">Approve</a> | <a href="{% url 'deny_book' book.pk %}">Deny</a></td>
                 <tr>
-            {% endfor %}
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 {% endblock content %}

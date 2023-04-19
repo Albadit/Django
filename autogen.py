@@ -11,8 +11,8 @@ def edit_html_file(file_basename: str, file_path: str) -> None:
     if file_basename not in read_lines_from_file(file_path):
         with open(file_path, 'w') as file_obj:
             file_obj.write(
-                f"{{% load static %}}\n"
                 f"{{% extends 'base/base.html' %}}\n\n"
+                f"{{% load static %}}\n"
                 f"{{% block title %}}{file_basename.capitalize()}{{% endblock title %}}\n\n"
                 f"{{% block csslinks %}}\n{{% endblock csslinks %}}\n\n"
                 f"{{% block content %}}\n{{% endblock content %}}\n"

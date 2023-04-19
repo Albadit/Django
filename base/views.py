@@ -9,13 +9,34 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-
 from django.contrib.auth.models import User
 
 
 # Create your views here.
 def index(request):
     return render(request, "base/index.html")
+
+def AllBooks(request):
+    books = Book.objects.filter(Approved=True)
+    context = {"books": books}
+    return render(request, "base/books.html", context)
+
+def Login(request):
+    pass
+
+def Register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("index")
+    else:
+        form = UserCreationForm()
+    
+    context = {"form": form}
+    return render(request, "registration/register.html", context)
 
 @login_required
 def AddBook(request):
@@ -31,25 +52,6 @@ def AddBook(request):
     
     context = {"form": form}
     return render(request, "base/addbook.html", context)
-
-def AllBooks(request):
-    books = Book.objects.filter(Approved=True)
-    context = {"books": books}
-    return render(request, "base/books.html", context)
-
-def Register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("index")
-    else:
-        form = UserCreationForm()
-    
-    context = {"form": form}
-    return render(request, "registration/register.html", context)
 
 @login_required
 def get_user_profile(request, username):

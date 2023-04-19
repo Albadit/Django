@@ -24,7 +24,7 @@ class Book(models.Model):
         return self.user.username
 
 class Read(models.Model):
-    SCORE_CHOICES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    SCORE_CHOICES = [*range(1, 11, 1)]
     Book = models.ForeignKey(Book, on_delete=models.CASCADE)
     User = models.ForeignKey(Profile, on_delete=models.CASCADE)
     Date = models.DateField(null=False, blank=False)
