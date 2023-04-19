@@ -2,33 +2,107 @@ body {
     margin: 0;
 }
 
-.nav-container {
-    background-color: aqua;
+.content {
+    margin: 1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* navigation css start*/
+.nav {
+    background-color: #262626;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    padding-left: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
-.nav-item {
-    background-color: aqua;
-    margin: 0.5rem;
+.nav .logo {
+    height: 5rem;
+    width: 5rem;
 }
 
-.logo {
-    height: 3rem;
-    width: 3rem;
+.nav ul {
+    background: darkorange;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
 }
 
-.nav-container a {
-    color: crimson;
-    font-style: italic;
+.nav li {
+    color: #fff;
+    background: darkorange;
+    display: block;
+    float: left;
+    padding: 1rem;
+    position: relative;
     text-decoration: none;
-    font-size: 2rem;
+    transition-duration: 0.5s;
 }
 
-.nav-container a:hover {
-    color: darkgreen;
-    text-decoration: underline;
+.nav li a {
+    color: #fff;
+}
+
+.nav li:hover {
+    background: red;
+    cursor: pointer;
+}
+
+.nav ul li ul {
+    background: orange;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    right: 2rem;
+    display: none;
+}
+
+.nav ul li:hover>ul,
+.nav ul li:focus-within>ul,
+/* this is the line we add */
+.nav ul li ul:hover {
+    visibility: visible;
+    opacity: 1;
+    display: block;
+}
+
+.nav ul li ul li {
+    clear: both;
+    width: 100%;
+}
+
+/* navigation css stop */
+
+/* library css start */
+.library {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.library th {
+    background-color: yellow;
+}
+
+.library table,
+th,
+td {
+    background-color: grey;
+    border: 2px solid;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+.library th,
+td {
+    padding-left: 50px;
+    padding-right: 50px;
 }

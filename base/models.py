@@ -19,11 +19,18 @@ class Book(models.Model):
     Author = models.CharField(max_length=100)
     Genre = models.CharField(max_length=100)
     NumberOfPages = models.CharField(max_length=100)
-    approved = models.BooleanField(default=False)
-    approved_by = models.ForeignKey(User, on_delete=models.CASCADE,
+    Approved = models.BooleanField(default=False)
+    Approved_by = models.ForeignKey(User, on_delete=models.CASCADE,
                                     related_name='approved_by', null=True, blank=True)
     def __str__(self):
         return self.user.username
+    
+class Read(models.Model):
+    SCORE_CHOICES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    User = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    Date = models.DateField(null=False, blank=False)
+    Score = models.IntegerField(null=False, blank=False)
     
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
