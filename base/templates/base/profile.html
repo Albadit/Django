@@ -1,12 +1,22 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}{{user.username}}{% endblock title %}
+{% block title %}Profile{% endblock title %}
+{% block csslinks %}
+<style>
+    .profile {
+        width: 500px;
+        margin: auto;
+    }
+</style>
+{% endblock csslinks %}
 
 {% block content %}
+<div class="profile">
     <h1>Welkom {{user.username}}</h1>
     <p><strong>First name: </strong>{{user.first_name}}</p>
     <p><strong>Last name: </strong>{{user.last_name}}</p>
     <p><strong>Location: </strong>{{profile.location}}</p>
     <p><strong>Date of birth: </strong>{{profile.date_of_birth}}</p>
     <p><strong>Bio: </strong>{{profile.bio}}</p>
+</div>
 {% endblock content %}

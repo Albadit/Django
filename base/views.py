@@ -1,10 +1,9 @@
 from django.shortcuts import redirect, render
 
-from .forms import BookForm, ReadForm
-
+from .forms import BookForm, ReadForm, CustomUserCreationForm
 from .models import Book, Profile
 
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -22,21 +21,29 @@ def AllBooks(request):
     return render(request, "base/books.html", context)
 
 def Login(request):
-    pass
-
-def Register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
+    context = {"error": 'Invalid login credentials'}
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect("index")
+            return redirect('index')
+        else:
+            return render(request, 'registration/login.html', context)
     else:
-        form = UserCreationForm()
-    
-    context = {"form": form}
-    return render(request, "registration/register.html", context)
+        return render(request, 'registration/login.html', context)
+
+
+def SignUp(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def AddBook(request):

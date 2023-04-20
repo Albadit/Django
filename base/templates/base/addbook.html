@@ -1,11 +1,45 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block title %}Add new book{% endblock title %}
+{% block csslinks %}
+<style>
+form {
+    max-width: 500px;
+    margin: auto;
+}
+</style>
+{% endblock csslinks %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Submit">
-    </form>
+<form method="POST">
+    <legend>Add a book in the library</legend>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        {{ form.Title }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Author</label>
+        {{ form.Author }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Genre</label>
+        {{ form.Genre }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Number Of Pages</label>
+        {{ form.NumberOfPages }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Book</button>
+</form>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}

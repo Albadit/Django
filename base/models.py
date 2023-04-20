@@ -5,10 +5,14 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Profile(models.Model):
-    location = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # email = models.CharField(max_length=100)
+    # first_name = models.CharField(max_length=100)
+    # last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     bio = models.TextField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    location = models.CharField(max_length=100)
+    
     def __str__(self):
         return self.user.username
 
@@ -18,8 +22,8 @@ class Book(models.Model):
     Genre = models.CharField(max_length=100)
     NumberOfPages = models.CharField(max_length=100)
     Approved = models.BooleanField(default=False)
-    Approved_by = models.ForeignKey(User, on_delete=models.CASCADE,
-                                    related_name='approved_by', null=True, blank=True)
+    Approved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='approved_by', null=True, blank=True)
+
     def __str__(self):
         return self.user.username
 

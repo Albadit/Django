@@ -14,14 +14,19 @@
                 <ul class="navbar-nav">
                     {% if user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'unapproved_books' %}">Check books</a>
+                        <a class="nav-link active" href="{% url 'unapproved_books' %}">Approving Book</a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'addbook' %}">Add Book</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'books' %}">Books</a>
+                        <a class="nav-link active" href="{% url 'books' %}">Books</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -30,7 +35,7 @@
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
                             <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                            <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
                             {% endif %} 
                         </ul>
                     </li>

@@ -2,19 +2,31 @@
 
 {% block csslinks %}
 <style>
-    .library {
-        overflow-x: scroll;
-        max-width: 1250px;
-        margin: auto;
-    }
+.library {
+    overflow-x: scroll;
+    max-width: 1000px;
+    margin: auto;
+}
+
+table a {
+    width: 85px;
+}
+
+tbody td {
+    vertical-align: middle;
+}
+
+.small {
+    width: 200px;
+}
 </style>
 {% endblock csslinks %}
 
 {% block content %}
     <div class="library">
-        <h1>Unapproved books</h1>
+        <h1>Unapproved Books</h1>
         <table class="table table-striped">
-            <tbody>
+            <thead>
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
@@ -22,13 +34,18 @@
                     <th>Pages</th>
                     <th>Approving</th>
                 </tr>
+            </thead>
+            <tbody>
                 {% for book in books %}
                 <tr>
                     <td>{{ book.Title }}</td>
                     <td>{{ book.Author }}</td>
                     <td>{{ book.Genre }}</td>
                     <td>{{ book.NumberOfPages }}</td>
-                    <td><a href="{% url 'approve_book' book.pk %}">Approve</a> | <a href="{% url 'deny_book' book.pk %}">Deny</a></td>
+                    <td class="small">
+                        <a class="btn btn-success btn-sm" href="{% url 'approve_book' book.pk %}">Approve</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'deny_book' book.pk %}">Deny</a>
+                    </td>
                 <tr>
                 {% endfor %}
             </tbody>
