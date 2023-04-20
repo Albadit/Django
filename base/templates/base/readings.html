@@ -18,8 +18,8 @@
         </tr>
         {% for read in readings %}
             <tr>
-                <td>{{ read.Book_id }}</td>
-                <td>{{ read.User_id }}</td>
+                <td>{{ read.Title }}</td>
+                <td>{{ read.username }}</td>
                 <td>{{ read.Score }}</td>
                 <td>{{ read.Date }}</td>
                 {% if user.is_staff %}

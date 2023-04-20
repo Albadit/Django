@@ -25,7 +25,7 @@ def AddBook(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Book added succesfully")
-            return redirect("index")
+            return redirect("books")
         else:
             messages.error(request, "Book wasn't added succesfully")
     else:
@@ -150,9 +150,11 @@ def readings(request):
 
     with connection.cursor() as cursor:
         cursor.execute(query)
-        test = cursor.fetchall()
+        columns = [col[0] for col in cursor.description]
+        readings = [dict(zip(columns, row))
+                    for row in cursor.fetchall()]
     # readings = Read.objects.all()
-    context = {"readings": test}
+    context = {"readings": readings}
     return render(request, 'base/readings.html', context)
 
 @staff_member_required
