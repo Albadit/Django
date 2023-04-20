@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -23,12 +24,11 @@ class Book(models.Model):
     Approved_by = models.ForeignKey(User, on_delete=models.CASCADE,
                                     related_name='approved_by', null=True, blank=True)
     def __str__(self):
-        return self.user.username
+        return self.Title
     
 class Read(models.Model):
-    SCORE_CHOICES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    User = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="approved_by")
+    User = models.ForeignKey(User, on_delete=models.CASCADE)
     Date = models.DateField(null=False, blank=False)
     Score = models.IntegerField(null=False, blank=False)
     

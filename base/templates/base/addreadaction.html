@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{%block title%}Add new read action{%endblock title%}
+
+{%block content%}
+    <h1>add read action</h1>
+    {% comment %} <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form> {% endcomment %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="Book"><strong>Book: </strong></label>
+        <select name="Book" id="Book">
+            {% for book in books %}
+                <option value="{{ book.id }}">{{ book.Title}}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="text" name="User" id="User" value="{{ user.id }}" readonly hidden>
+
+        <label for="Score"><strong>Score: </strong></label>
+        <input type="number" id="Score" name="Score"><br><br>
+        
+
+        <label for="Date"><strong>Date: </strong></label>
+        <input type="date" id="Date" name="Date"><br><br>
+
+        <input type="submit" value="Add read action">
+    </form>
+{%endblock content%}

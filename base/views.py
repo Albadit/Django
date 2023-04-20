@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 
-from .forms import BookForm, ReadForm
+from .forms import BookForm, ProfileForm, ReadForm
 
-from .models import Book, Profile
+from .models import Book, Profile, Read
 
+from django.db import connection
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -21,16 +22,34 @@ def index(request):
 def AddBook(request):
     if request.method == "POST":
         form = BookForm(request.POST)
-
         if form.is_valid():
             form.save()
             messages.success(request, "Book added succesfully")
             return redirect("index")
+        else:
+            messages.error(request, "Book wasn't added succesfully")
     else:
         form = BookForm()
     
     context = {"form": form}
     return render(request, "base/addbook.html", context)
+
+@staff_member_required
+def EditBook(request, pk):
+    book = Book.objects.get(id = pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book edited succesfully")
+            return redirect("books")
+        else:
+            messages.error(request, "Book edit failed") 
+    else:
+        form = BookForm()
+    
+    context = {"form": form, "book": book}
+    return render(request, "base/editbook.html", context)
 
 def AllBooks(request):
     books = Book.objects.filter(Approved=True)
@@ -52,10 +71,28 @@ def Register(request):
     return render(request, "registration/register.html", context)
 
 @login_required
-def get_user_profile(request, username):
-    user = User.objects.get(username = username)
-    profile = Profile.objects.get(id = user.id)
+def get_user_profile(request, pk):
+    user = User.objects.get(id = pk)
+    profile = Profile.objects.get(user_id = pk)
     context = {"user": user, "profile": profile}
+    return render(request, "base/profile.html", context)
+
+@login_required
+def edit_profile(request, pk):
+    profile = Profile.objects.get(user_id=pk)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=profile)       
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated succesfully!")
+        else:
+            messages.error(request, "Profile updated didn't succeed!")
+    else:
+        form = ProfileForm()
+
+    context = {"form": form, "profile": profile}
+
     return render(request, "base/profile.html", context)
 
 @staff_member_required
@@ -79,3 +116,48 @@ def deny_book(request, pk):
     book.delete()
     messages.success(request, "Book denied.")
     return redirect("unapproved_books")
+
+@staff_member_required
+def remove_book(request, pk):
+    book = Book.objects.get(pk=pk)
+    book.delete()
+    messages.success(request, "Book removed.")
+    return redirect("books")
+
+@login_required
+def addreadaction(request):
+    books = Book.objects.filter(Approved=True)
+    scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    if request.method == "POST":
+        form = ReadForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Read action added succesfully")
+            return redirect("index")
+        else:
+            messages.error(request, "Read action has not been added")
+    else:
+        form = ReadForm()
+    
+    context = {"form": form, "books": books, "scores": scores}
+    return render(request, "base/addreadaction.html", context)
+
+def readings(request):
+    query = """SELECT base_book.Title, auth_user.username, base_read.Score, base_read.Date, base_read.id FROM base_read
+    JOIN base_book ON base_read.Book_id == base_book.id
+    JOIN auth_user ON base_read.User_id == auth_user.id"""
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        test = cursor.fetchall()
+    # readings = Read.objects.all()
+    context = {"readings": test}
+    return render(request, 'base/readings.html', context)
+
+@staff_member_required
+def remove_read(request, pk):
+    read = Read.objects.get(id=pk)
+    read.delete()
+    messages.success(request, "Read action removed.")
+    return redirect("readings")

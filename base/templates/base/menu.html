@@ -5,21 +5,30 @@
         <a href="{% url 'index' %}"><img src="{% static 'base/images/catlogo.png' %}" alt="Logo" class="logo"></a>
     </div>
     <ul>
-        {% if user.is_staff %}
-            <li><a href="{% url 'unapproved_books' %}">check books</a></li>
-        {% endif %}
         <li><a href="{% url 'books' %}">Books</a></li>
+        <li><a href="{% url 'readings' %}">Readings</a></li>
+
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'addbook' %}">Add book</a></li>
+            <li><a href="{% url 'addreadaction' %}">Add read</a></li>
+        {% endif %}
+
+        {% if user.is_staff %}
+            <li><a href="{% url 'unapproved_books' %}">Check books</a></li>
+        {% endif %}
+
+
+        {% if user.is_authenticated %}
         <li><a href="#">Profile</a>
             <ul class="dropdown">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' 'admin' %}" class="nav-item">Profiel</a></li>
-                    <li><a href="{% url 'logout' %}" class="nav-item">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}" class="nav-item login">Login</a></li>
-                    <li><a href="{% url 'register' %}" class="nav-item register">Register</a></li>
-                {% endif %}  
+                <li><a href="{% url 'profile' user.id %}" class="nav-item">Profile</a></li>
+                <li><a href="{% url 'logout' %}" class="nav-item">Logout</a></li>
             </ul>
         </li>
+        {% else %}  
+            <li><a href="{% url 'login' %}" class="nav-item login">Login</a></li>
+            <li><a href="{% url 'register' %}" class="nav-item register">Register</a></li>
+        {% endif %}
     </ul>
 </div>
 

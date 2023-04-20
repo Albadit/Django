@@ -11,6 +11,10 @@
                 <th>Author</th>
                 <th>Genre</th>
                 <th>Pages</th>
+                {% if user.is_staff %}
+                    <th>Edit</th>
+                    <th>Remove</th>
+                {% endif %}
             </tr>
             {% for book in books %}
                 <tr>
@@ -18,6 +22,10 @@
                     <td>{{ book.Author }}</td>
                     <td>{{ book.Genre }}</td>
                     <td>{{ book.NumberOfPages }}</td>
+                    {% if user.is_staff %}
+                        <td><a href="{% url 'editbook' book.pk %}">Edit</a></td>
+                        <td><a href="{% url 'remove_book' book.pk %}">Remove</a></td>
+                    {% endif %}
                 <tr>
             {% endfor %}
         </table>
