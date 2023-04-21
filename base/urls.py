@@ -8,7 +8,7 @@ urlpatterns = [
     path("signup/", views.singup, name="signup"),
 
     path("profile/<int:pk>/", views.profile, name="profile"),
-    # path("edit_profile/<int:pk>/", views.edit_profile, name="edit_profile"),
+    path("edit_profile/<int:pk>/", views.edit_profile, name="edit_profile"),
 
     path("books/", views.books, name="books"),
     path("add_book/", views.add_book, name="add_book"),
@@ -20,7 +20,8 @@ urlpatterns = [
     path("deny_book/<int:pk>", views.deny_book, name="deny_book"),
 
     path('readings/', views.readings, name='readings'),
+    path('your_readings/<int:pk>', views.your_readings, name='your_readings'),
     path('add_read_action/', views.add_read_action, name='add_read_action'),
-    # path('edit_read_action/', views.edit_read_action, name='edit_read_action'),
+    path('edit_read_action/<int:pk>', views.edit_read_action, name='edit_read_action'),
     path("remove_read/<int:pk>", views.remove_read, name="remove_read"),
 ]

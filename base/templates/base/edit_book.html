@@ -31,6 +31,10 @@
             <label class="form-label">Pages</label>
             <input type="text" class="form-control" name="NumberOfPages" value="{{ book.NumberOfPages }}">
         </div>
+        {% if user.is_staff %}
+            <input type="checkbox" name="Approved" checked hidden>
+            <input type="text" name="Approved_by" value="{{ user.id }}" readonly hidden>
+        {% endif %}
         <button type="submit" class="btn btn-primary">Save Edit</button>
     </form>
 </div>

@@ -13,10 +13,11 @@
 {% block content %}
 <div class="profile">
     <h1>Welkom {{user.username}}</h1>
-    <p><strong>First name: </strong>{{user.first_name}}</p>
-    <p><strong>Last name: </strong>{{user.last_name}}</p>
-    <p><strong>Location: </strong>{{profile.location}}</p>
-    <p><strong>Date of birth: </strong>{{profile.date_of_birth}}</p>
-    <p><strong>Bio: </strong>{{profile.bio}}</p>
+    <p><b>First name:</b> {{user.first_name}}</p>
+    <p><b>Last name:</b> {{user.last_name}}</p>
+    <p><b>Location:</b> {{profile.location}}</p>
+    <p><b>Date of birth:</b> {{profile.date_of_birth}}</p>
+    <p><b>Bio:</b> {{profile.bio}}</p>
+    <a class="btn btn-primary" href="{% url 'edit_profile' user.id %}">Edit Profile</a>
 </div>
 {% endblock content %}

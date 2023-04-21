@@ -3,23 +3,23 @@
 {% block title %}Readings{% endblock title %}
 {% block csslinks %}
 <style>
-.reading {
-    overflow-x: scroll;
-    max-width: 1000px;
-    margin: auto;
-}
+    .reading {
+        overflow-x: scroll;
+        max-width: 1000px;
+        margin: auto;
+    }
 
-table a {
-    width: 85px;
-}
+    .reading table a {
+        width: 85px;
+    }
 
-tbody td {
-    vertical-align: middle;
-}
+    .reading tbody td {
+        vertical-align: middle;
+    }
 
-.small {
-    width: 120px;
-}
+    .reading .small {
+        width: 200px;
+    }
 </style>
 {% endblock csslinks %}
 
@@ -33,7 +33,7 @@ tbody td {
                 <th>User</th>
                 <th>Score</th>
                 <th>Date</th>
-                {% if user.is_staff %}
+                {% if user.id in readers %}
                 <th>Remove</th>
                 {% endif %}
             </tr>
@@ -45,10 +45,13 @@ tbody td {
                 <td>{{ read.user }}</td>
                 <td>{{ read.score }}</td>
                 <td>{{ read.date }}</td>
-                {% if user.is_staff %}
+                {% if user.id == id %}
                 <td class="small">
+                    <a class="btn btn-warning btn-sm" href="{% url 'edit_read_action' id %}">Edit</a>
                     <a class="btn btn-danger btn-sm" href="{% url 'remove_read' id %}">Remove</a>
                 </td>
+                {% elif user.id in readers %}
+                <td></td>
                 {% endif %}
             <tr>
             {% endfor %}

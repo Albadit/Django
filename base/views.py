@@ -24,8 +24,8 @@ def re_login(request):
             login(request, user)
             return redirect('home')
         else: 
-            context = {"error": 'Invalid login credentials'}
-            return render(request, 'registration/login.html', context)
+            messages.error(request, 'Invalid login credentials')
+            return render(request, 'registration/login.html')
     else:
         return render(request, 'registration/login.html')
 
@@ -33,7 +33,8 @@ def singup(request):
     if request.method == 'POST':
         form = SingupForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')
     else:
         form = SingupForm()
@@ -41,26 +42,27 @@ def singup(request):
 
 # profile
 @login_required
-def profile(request, username):
-    user = User.objects.get(username = username)
-    profile = Profile.objects.get(id = user.id)
+def profile(request, pk):
+    user = User.objects.get(id = pk)
+    profile = Profile.objects.get(id = pk)
     context = {'user': user, 'profile': profile}
     return render(request, 'base/profile.html', context)
 
 @login_required
 def edit_profile(request, pk):
-    profile = Profile.objects.get(user_id=pk)
+    profile = Profile.objects.get(user_id = pk)
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)       
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated succesfully!')
+            return redirect('profile', pk)
         else:
             messages.error(request, 'Profile updated didn\'t succeed!')
     else:
         form = ProfileForm()
     context = {'form': form, 'profile': profile}
-    return render(request, 'base/profile.html', context)
+    return render(request, 'base/edit_profile.html', context)
 
 # books
 def books(request):
@@ -148,10 +150,29 @@ def readings(request):
     context = {'readers': readers_sorted}
     return render(request, 'base/readings.html', context)
 
+def your_readings(request, pk):
+    book_dict = {book.pk: {'name': book.Title} for book in Book.objects.all()}
+    user_dict = {user.pk: user.username for user in User.objects.all()}
+    readings = Read.objects.all()
+
+    readers = {
+        i.id: {
+            'name': book_dict.get(i.Book_id)['name'],
+            'user': user_dict.get(i.User_id),
+            'score': i.Score,
+            'date': i.Date
+        }
+        for i in readings
+        if i.User_id == pk
+    }
+    readers_sorted = dict(sorted(readers.items(), key=lambda x: x[1]['date']))
+
+    context = {'readers': readers_sorted}
+    return render(request, 'base/readings.html', context)
+
 @login_required
 def add_read_action(request):
     books = Book.objects.filter(Approved=True)
-    scores = list(range(1, 11))
 
     if request.method == 'POST':
         form = ReadForm(request.POST)
@@ -164,8 +185,27 @@ def add_read_action(request):
     else:
         form = ReadForm()
     
-    context = {'form': form, 'books': books, 'scores': scores}
+    context = {'form': form, 'books': books}
     return render(request, 'base/add_read_action.html', context)
+
+@login_required
+def edit_read_action(request, pk):
+    books = Book.objects.filter(Approved=True)
+    read = Read.objects.get(id = pk)
+    
+    if request.method == "POST":
+        form = ReadForm(request.POST, instance = read)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Read action edited succesfully')
+            return redirect('your_readings', read.User_id)
+        else:
+            messages.error(request, 'Read action has not been edited')
+    else:
+        form = ReadForm()
+    
+    context = {'form': form, 'books': books, 'read': read}
+    return render(request, "base/edit_read_action.html", context)
 
 
 @staff_member_required

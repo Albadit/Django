@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock title %}
+{% block csslinks %}
+<style>
+.edit_book {
+    max-width: 500px;
+    margin: auto;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="edit_book">
+    <h1>Edit your profile</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" name="location" value="{{ profile.location }}" >
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" name="date_of_birth" value="{{ profile.date_of_birth|date:"Y-m-d" }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bio</label>
+            <textarea name="bio" class="form-control" cols="30" rows="5" required>{{ profile.bio }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Edit</button>
+    </form>
+</div>
+{% endblock content %}

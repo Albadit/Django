@@ -27,7 +27,3 @@ if __name__ == "__main__":
         if user_input == "4":
             file = os.path.join(sys.path[0], "manage.py")
             os.system(f"python {file} createsuperuser")
-
-        if user_input == "5":
-            file = os.path.join(sys.path[0], "autogen.py")
-            os.system(f"python {file}")
