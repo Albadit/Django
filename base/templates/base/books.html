@@ -1,33 +1,69 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{%block title%}All the books{%endblock title%}
+{% block title %}All the books{% endblock title %}
+{% block csslinks %}
+<style>
+.library {
+    overflow-x: scroll;
+    max-width: 1000px;
+    margin: auto;
+}
 
-{%block content%}
-    <div class="library">
-        <h1>All registered books</h1>
-        <table style="overflow-y:scroll">
+.library table a {
+    width: 85px;
+}
+
+.library tbody td {
+    vertical-align: middle;
+}
+
+.library .small {
+    width: 200px;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="library">
+    <h1>All Registered Books</h1>
+    <table class="table table-striped">
+        <thead>
             <tr>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Genre</th>
                 <th>Pages</th>
                 {% if user.is_staff %}
-                    <th>Edit</th>
-                    <th>Remove</th>
+                <th>Change</th>
                 {% endif %}
             </tr>
+        </thead>
+        <tbody>
             {% for book in books %}
-                <tr>
-                    <td>{{ book.Title }}</td>
-                    <td>{{ book.Author }}</td>
-                    <td>{{ book.Genre }}</td>
-                    <td>{{ book.NumberOfPages }}</td>
-                    {% if user.is_staff %}
-                        <td><a href="{% url 'editbook' book.pk %}">Edit</a></td>
-                        <td><a href="{% url 'remove_book' book.pk %}">Remove</a></td>
-                    {% endif %}
-                <tr>
+            <tr>
+                <td>{{ book.Title }}</td>
+                <td>{{ book.Author }}</td>
+                <td>{{ book.Genre }}</td>
+                <td>{{ book.NumberOfPages }}</td>
+                {% if user.is_staff %}
+                <td class="small">
+                    <a class="btn btn-warning btn-sm" href="{% url 'edit_book' book.pk %}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'remove_book' book.pk %}">Remove</a>
+                </td>
+                {% endif %}
+            <tr>
             {% endfor %}
-        </table>
-    </div>
-{%endblock content%}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}

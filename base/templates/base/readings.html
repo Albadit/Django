@@ -1,32 +1,68 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}readings{% endblock title %}
-{% block csslinks %}{% endblock csslinks %}
+{% block title %}Readings{% endblock title %}
+{% block csslinks %}
+<style>
+.reading {
+    overflow-x: scroll;
+    max-width: 1000px;
+    margin: auto;
+}
+
+table a {
+    width: 85px;
+}
+
+tbody td {
+    vertical-align: middle;
+}
+
+.small {
+    width: 120px;
+}
+</style>
+{% endblock csslinks %}
 
 {% block content %}
-<div class="library">
+<div class="reading">
     <h1>All registered readings</h1>
-    <table style="overflow-y:scroll">
-        <tr>
-            <th>Book</th>
-            <th>User</th>
-            <th>Score</th>
-            <th>Date</th>
-            {% if user.is_staff %}
-                <th>Remove</th>
-            {% endif %}
-        </tr>
-        {% for read in readings %}
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>{{ read.Book_id }}</td>
-                <td>{{ read.User_id }}</td>
-                <td>{{ read.Score }}</td>
-                <td>{{ read.Date }}</td>
+                <th>Book</th>
+                <th>User</th>
+                <th>Score</th>
+                <th>Date</th>
                 {% if user.is_staff %}
-                    <td><a href="{% url 'remove_read' read.id %}">Remove</a></td>
+                <th>Remove</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, read in readers.items %}
+            <tr>
+                <td>{{ read.name }}</td>
+                <td>{{ read.user }}</td>
+                <td>{{ read.score }}</td>
+                <td>{{ read.date }}</td>
+                {% if user.is_staff %}
+                <td class="small">
+                    <a class="btn btn-danger btn-sm" href="{% url 'remove_read' id %}">Remove</a>
+                </td>
                 {% endif %}
             <tr>
-        {% endfor %}
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}

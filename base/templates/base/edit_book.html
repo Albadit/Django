@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Edit book{% endblock title %}
+{% block csslinks %}
+<style>
+.edit_book {
+    max-width: 500px;
+    margin: auto;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="edit_book">
+    <h1>Edit: {{book.Title}}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Book</label>
+            <input type="text" class="form-control" name="Title" value="{{ book.Title }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input type="text" class="form-control" name="Author" value="{{ book.Author }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Genre</label>
+            <input type="text" class="form-control" name="Genre" value="{{ book.Genre }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Pages</label>
+            <input type="text" class="form-control" name="NumberOfPages" value="{{ book.NumberOfPages }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Edit</button>
+    </form>
+</div>
+{% endblock content %}
