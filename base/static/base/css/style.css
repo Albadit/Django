@@ -1,34 +1,61 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.container {
+    margin-top: 80px;
 }
 
-body {
-    background-color: aqua;
+header img {
+    height: 60px;
 }
 
-nav {
-    height: 55px;
-    display: flex;
-    justify-content: center;
+.navbar-collapse {
+    flex-basis: 100%;
+    flex-grow: 0;
     align-items: center;
 }
 
-nav img {
-    height: 80%;
-    margin: 0 10px;
+.messages{
+    max-width:50%;
+    background-color: #ffffff;
+    padding:20px;
+    border:1px solid #eee;
+    border-left-width:5px;
+    border-radius: 3px;
+    margin:10px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
 }
 
-ul {
-    display: flex;
-    list-style-type: none;
+.error {
+    border-left-color: #d9534f; /* Left side border color */
+    background-color: rgba(217, 83, 79, 0.1); /*Same color as the left border with reduced alpha to 0.1*/
 }
 
-li {
-    margin: 0 10px;
+.error b {
+    color:#d9534f;
 }
 
-a {
-    text-decoration: none ;
+.error b::before {
+    content: "Error";
 }
+
+.success {
+    border-left-color: #2b542c;
+    background-color: rgba(43, 84, 44, 0.1);
+}
+
+.success b {
+    color: #2b542c;
+}
+
+.success b::before {
+    content: "Success";
+}
+
+/* .messages {
+    text-align: center;
+    margin: 0 auto;
+    
+}
+
+.messages p {
+    color: aqua;
+} */

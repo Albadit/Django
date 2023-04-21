@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Unapproved Books{% endblock title %}
+{% block csslinks %}
+<style>
+.library {
+    overflow-x: scroll;
+    max-width: 1000px;
+    margin: auto;
+}
+
+table a {
+    width: 85px;
+}
+
+tbody td {
+    vertical-align: middle;
+}
+
+.small {
+    width: 200px;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="library">
+    <h1>Unapproved Books</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Pages</th>
+                <th>Approving</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.Title }}</td>
+                <td>{{ book.Author }}</td>
+                <td>{{ book.Genre }}</td>
+                <td>{{ book.NumberOfPages }}</td>
+                <td class="small">
+                    <a class="btn btn-success btn-sm" href="{% url 'approve_book' book.pk %}">Approve</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'deny_book' book.pk %}">Deny</a>
+                </td>
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}

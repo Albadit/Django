@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Add read action{% endblock title %}
+{% block csslinks %}
+<style>
+.edit_book {
+    max-width: 500px;
+    margin: auto;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="edit_book">
+    <h1>Add read action</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Book</label>
+            <select class="form-select" name="Book" id="Book" required>
+                {% for book in books %}
+                    <option value="{{ book.id }}">{{ book.Title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Score</label>
+            <input type="number" class="form-control" name="Score" value="{{ read.Score }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" id="datePicker" name="Date" value="{{read.Date|date:"Y-m-d"}}" required>
+        </div>
+        <input type="text" name="User" value="{{ user.id }}" readonly hidden>
+        <button type="submit" class="btn btn-primary">Add Read Action</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.getElementById('datePicker').valueAsDate = new Date();
+</script>
+{% endblock javascript %}

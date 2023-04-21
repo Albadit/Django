@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock title %}
+{% block csslinks %}
+<style>
+    .signup {
+        max-width: 600px;
+        margin: auto;
+    }
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="signup">
+    <h2>Create a new account</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username }}
+            <div class="form-text">Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            {{ form.first_name }}
+            <div class="form-text">Required. 30 characters.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            {{ form.last_name }}
+            <div class="form-text">Required. 30 characters.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            {{ form.password1 }}
+            <div class="form-text">
+                <ul>
+                    <li>Your password can't be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can't be a commonly used password.</li>
+                    <li>Your password can't be entirely numeric.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mb-3" style="display: none;">
+            <label class="form-label">Password confirmation</label>
+            {{ form.password2 }}
+            <div class="form-text">Enter the same password as before, for verification.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.getElementById('id_password1').addEventListener('input', function() {
+    document.getElementById('id_password2').value = this.value;
+});
+</script>
+{% endblock javascript %}

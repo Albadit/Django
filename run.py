@@ -4,10 +4,12 @@ if __name__ == "__main__":
     run = True
 
     while run:
+        print()
         print("Press 1: to run server")
         print("Press 2: to make migrations")
         print("Press 3: to migrate")
         print("Press 4: to create super user")
+        print("Press 5: to auto implement")
         user_input = input("Select option: ").lower()
 
         if user_input == "1":

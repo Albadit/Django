@@ -1,0 +1,53 @@
+{% load static %}
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'base/img/catlogo.png' %}" alt="mac">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    {% if user.is_staff %}
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'unapproved_books' %}">Approving Book</a></li>
+                    {% endif %}
+                    
+                    
+                    
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'books' %}">Books</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'readings' %}">Readings</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Add
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'add_book' %}">Add Book</a></li>
+                            <li><a class="dropdown-item" href="{% url 'add_read_action' %}">Add Read</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'profile' user.id %}">Profiel</a></li>
+                            <li><a class="dropdown-item" href="{% url 'your_readings' user.id %}">Your Readings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
+                            {% endif %} 
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

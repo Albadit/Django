@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Add new book{% endblock title %}
+{% block csslinks %}
+<style>
+.add_book {
+    max-width: 500px;
+    margin: auto;
+}
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="add_book">
+    <h1>Add a book in the library</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" name="Title" placeholder="Title" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input type="text" class="form-control" name="Author" placeholder="Author" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Genre</label>
+            <input type="text" class="form-control" name="Genre" placeholder="Genre" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Number Of Pages</label>
+            <input type="number" class="form-control" name="NumberOfPages" placeholder="Number Of Pages" required>
+        </div>
+        {% if user.is_staff %}
+            <input type="checkbox" name="Approved" id="Approved" checked hidden>
+            <input type="text" name="Approved_by" id="Approved_by" value="{{ user.id }}" readonly hidden>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}

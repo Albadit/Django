@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Readings{% endblock title %}
+{% block csslinks %}
+<style>
+    .reading {
+        overflow-x: scroll;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .reading table a {
+        width: 85px;
+    }
+
+    .reading tbody td {
+        vertical-align: middle;
+    }
+
+    .reading .small {
+        width: 200px;
+    }
+</style>
+{% endblock csslinks %}
+
+{% block content %}
+<div class="reading">
+    <h1>All registered readings</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>User</th>
+                <th>Score</th>
+                <th>Date</th>
+                {% if user.id in readers %}
+                <th>Remove</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, read in readers.items %}
+            <tr>
+                <td>{{ read.name }}</td>
+                <td>{{ read.user }}</td>
+                <td>{{ read.score }}</td>
+                <td>{{ read.date }}</td>
+                {% if user.id == id %}
+                <td class="small">
+                    <a class="btn btn-warning btn-sm" href="{% url 'edit_read_action' id %}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'remove_read' id %}">Remove</a>
+                </td>
+                {% elif user.id in readers %}
+                <td></td>
+                {% endif %}
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+document.querySelectorAll('table tr').forEach(function(e, i) {
+    if (e.textContent.trim().length == 0) {
+        e.parentNode.removeChild(e);
+    }
+})
+</script>
+{% endblock javascript %}
