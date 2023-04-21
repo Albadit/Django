@@ -130,20 +130,6 @@ def deny_book(request, pk):
 
 # read action
 def readings(request):
-    # query = """SELECT base_book.Title, auth_user.username, base_read.Score, base_read.Date, base_read.id FROM base_read
-    # JOIN base_book ON base_read.Book_id == base_book.id
-    # JOIN auth_user ON base_read.User_id == auth_user.id"""
-
-    # with connection.cursor() as cursor:
-    #     cursor.execute(query)
-    #     readings = cursor.fetchall()
-
-    # book_dict = {book.pk: book.Title for book in Book.objects.all()}
-    # user_dict = {user.pk: user.username for user in User.objects.all()}
-
-    # readings = Read.objects.all()
-
-    # book_score = {i.Book_id: {'id': i.Book_id, 'name': book_dict.get(i.Book_id), 'user': user_dict.get(i.User_id)} for i in readings}
     book_dict = {book.pk: {'name': book.Title} for book in Book.objects.all()}
     user_dict = {user.pk: user.username for user in User.objects.all()}
     readings = Read.objects.all()
