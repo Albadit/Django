@@ -70,15 +70,9 @@ def Register(request):
     context = {"form": form}
     return render(request, "registration/register.html", context)
 
-@login_required
-def get_user_profile(request, pk):
-    user = User.objects.get(id = pk)
-    profile = Profile.objects.get(user_id = pk)
-    context = {"user": user, "profile": profile}
-    return render(request, "base/profile.html", context)
 
 @login_required
-def edit_profile(request, pk):
+def profile(request, pk):
     profile = Profile.objects.get(user_id=pk)
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=profile)       
@@ -127,7 +121,6 @@ def remove_book(request, pk):
 @login_required
 def addreadaction(request):
     books = Book.objects.filter(Approved=True)
-    scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     if request.method == "POST":
         form = ReadForm(request.POST)
@@ -140,7 +133,7 @@ def addreadaction(request):
     else:
         form = ReadForm()
     
-    context = {"form": form, "books": books, "scores": scores}
+    context = {"form": form, "books": books}
     return render(request, "base/addreadaction.html", context)
 
 def readings(request):
@@ -153,9 +146,41 @@ def readings(request):
         columns = [col[0] for col in cursor.description]
         readings = [dict(zip(columns, row))
                     for row in cursor.fetchall()]
-    # readings = Read.objects.all()
     context = {"readings": readings}
     return render(request, 'base/readings.html', context)
+
+@login_required
+def user_readings(request, pk):
+    query = """SELECT base_book.Title, auth_user.username, base_read.Score, base_read.Date, base_read.id FROM base_read
+    JOIN base_book ON base_read.Book_id == base_book.id
+    JOIN auth_user ON base_read.User_id == auth_user.id
+    WHERE base_read.User_id= %s"""
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [pk])
+        columns = [col[0] for col in cursor.description]
+        readings = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    context = {"readings": readings}
+    return render(request, 'base/userreadings.html', context)
+
+@login_required
+def editreadings(request, pk):
+    books = Book.objects.filter(Approved=True)
+    read = Read.objects.get(id=pk)
+    
+    if request.method == "POST":
+        form = ReadForm(request.POST, instance=read)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Read action edited succesfully")
+            return redirect("userreadings", read.User_id)
+        else:
+            messages.error(request, "Read action has not been edited")
+    else:
+        form = ReadForm()
+    
+    context = {"form": form, "books": books, "read": read}
+    return render(request, "base/editreading.html", context)
 
 @staff_member_required
 def remove_read(request, pk):

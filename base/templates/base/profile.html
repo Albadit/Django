@@ -9,13 +9,13 @@
         {% csrf_token %}
 
         <label for="location"><strong>Location: </strong></label>
-        <input type="text" id="location" name="location" value="{{profile.location}}"><br><br>
+        <input type="text" id="location" name="location" value="{{ profile.location }}"><br><br>
 
         <label for="date_of_birth"><strong>Date of birth: </strong></label>
         <input type="date" id="date_of_birth" name="date_of_birth" value="{{ profile.date_of_birth|date:"Y-m-d" }}"><br><br>
 
         <label for="bio"><strong>Bio: </strong></label>
-        <input type="text" id="bio" name="bio" value="{{profile.bio}}"><br><br>
+        <input type="text" id="bio" name="bio" value="{{ profile.bio }}"><br><br>
 
         <input type="submit" value="Save">
       </form>

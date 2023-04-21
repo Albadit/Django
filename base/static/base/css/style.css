@@ -23,8 +23,21 @@ a {
 }
 
 .nav .logo {
+    display: inline-block;
+}
+
+.text {
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.nav .logo-img {
     height: 5rem;
     width: 5rem;
+    float: left;
 }
 
 .nav ul {

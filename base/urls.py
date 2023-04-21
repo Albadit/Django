@@ -6,7 +6,7 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
     path("register/", views.Register, name="register"),
 
-    path("profile/<int:pk>/", views.edit_profile, name="profile"),
+    path("profile/<int:pk>/", views.profile, name="profile"),
 
     path("addbook/", views.AddBook, name="addbook"),
     path("books/", views.AllBooks, name="books"),
@@ -18,10 +18,13 @@ urlpatterns = [
     path("remove_book/<int:pk>", views.remove_book, name="remove_book"),
     path("editbook/<int:pk>/", views.EditBook, name="editbook"),
 
-    path('addreadaction/', views.addreadaction, name='addreadaction'),
+    path("addreadaction/", views.addreadaction, name="addreadaction"),
     
-    path('readings/', views.readings, name='readings'),
+    path("readings/", views.readings, name="readings"),
     path("remove_read/<int:pk>", views.remove_read, name="remove_read"),
+
+    path("userreadings/<int:pk>", views.user_readings, name="userreadings"),
+    path("editreading/<int:pk>", views.editreadings, name="edit_read"),
 
     path('login/', views.login, name='login'),
 ]

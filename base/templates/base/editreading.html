@@ -3,7 +3,7 @@
 {%block title%}Add new read action{%endblock title%}
 
 {%block content%}
-    <h1>Add read action</h1>
+    <h1>Edit read action</h1>
     <form method="POST">
         {% csrf_token %}
 
@@ -17,12 +17,12 @@
         <input type="text" name="User" id="User" value="{{ user.id }}" readonly hidden>
 
         <label for="Score"><strong>Score: </strong></label>
-        <input type="number" id="Score" name="Score"><br><br>
+        <input type="number" id="Score" name="Score" value="{{read.Score}}"><br><br>
         
 
         <label for="Date"><strong>Date: </strong></label>
-        <input type="date" id="Date" name="Date"><br><br>
+        <input type="date" id="Date" name="Date" value="{{read.Date|date:"Y-m-d"}}"><br><br>
 
-        <input type="submit" value="Add read action">
+        <input type="submit" value="Edit read action">
     </form>
 {%endblock content%}

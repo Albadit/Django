@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}readings{% endblock title %}
+{% block csslinks %}{% endblock csslinks %}
+
+{% block content %}
+<div class="library">
+    <h1>{{ user.username }}'s readings</h1>
+    <table style="overflow-y:scroll">
+        <tr>
+            <th>Book</th>
+            <th>Score</th>
+            <th>Date</th>
+            {% if user.is_authenticated %}
+                <th>Edit</th>
+                <th>Remove</th>
+            {% endif %}
+        </tr>
+        {% for read in readings %}
+            <tr>
+                <td>{{ read.Title }}</td>
+                <td>{{ read.Score }}</td>
+                <td>{{ read.Date }}</td>
+                {% if user.is_authenticated %}
+                    <td><a href="{% url 'edit_read' read.id %}">Edit</a></td>
+                    <td><a href="{% url 'remove_read' read.id %}">Remove</a></td>
+                {% endif %}
+            <tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
