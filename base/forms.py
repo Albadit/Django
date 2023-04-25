@@ -20,6 +20,10 @@ class SingupForm(UserCreationForm):
         'required': 'True',
         'class': 'form-control',
     }))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'required': 'True',
+        'class': 'form-control',
+    }))
 
     class Meta:
         model = User
@@ -49,4 +53,4 @@ class BookForm(forms.ModelForm):
 class ReadForm(forms.ModelForm):
     class Meta:
         model = Read
-        fields = ("Book", "User", "Score", "Date")
+        fields = ("User", "Book", "Score", "Date")

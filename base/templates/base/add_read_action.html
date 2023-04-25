@@ -15,9 +15,10 @@
     <h1>Add read action</h1>
     <form method="POST">
         {% csrf_token %}
+        <input type="text" name="User" value="{{ user.id }}" readonly hidden>
         <div class="mb-3">
             <label class="form-label">Book</label>
-            <select class="form-select" name="Book" id="Book" required>
+            <select class="form-select" name="Book" required>
                 {% for book in books %}
                     <option value="{{ book.id }}">{{ book.Title}}</option>
                 {% endfor %}
@@ -31,7 +32,6 @@
             <label class="form-label">Date</label>
             <input type="date" class="form-control" id="datePicker" name="Date" required>
         </div>
-        <input type="text" name="User" value="{{ user.id }}" readonly hidden>
         <button type="submit" class="btn btn-primary">Add Read Action</button>
     </form>
 </div>

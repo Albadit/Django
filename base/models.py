@@ -25,8 +25,8 @@ class Book(models.Model):
         return self.user.username
 
 class Read(models.Model):
-    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
     User = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
     Date = models.DateField(null=False, blank=False)
     Score = models.IntegerField(null=False, blank=False)
 
